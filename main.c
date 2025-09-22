@@ -47,7 +47,7 @@
 #include <ti/sysbios/knl/Task.h>
 
 /* TI-RTOS Header files */
-#include <ti/drivers/GPIO.h>
+// #include <ti/drivers/GPIO.h>
 // #include <ti/drivers/I2C.h>
 // #include <ti/drivers/SDSPI.h>
 // #include <ti/drivers/SPI.h>
@@ -74,14 +74,14 @@ void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, U
 void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void)
 {
     // porc 1 :=====================================D
-    GPIO_setOutputHighOnPin(GPIO_PORT_P1, LEDV);
+    GPIO_setAsOutputPin(GPIO_PORT_P1, LEDV);
     GPIO_setOutputLowOnPin(GPIO_PORT_P1, LEDV);
     // GPIO_setAsInputPin(GPIO_PORT_P1, BTN1 + BTN2);
     GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, BTN1 + BTN2);
     GPIO_enableInterrupt(GPIO_PORT_P1, BTN1 + BTN2);
 
     // porc 9 :=====================================D
-    GPIO_setOutputHighOnPin(GPIO_PORT_P9, LEDR);
+    GPIO_setAsOutputPin(GPIO_PORT_P9, LEDR);
     GPIO_setOutputLowOnPin(GPIO_PORT_P9, LEDR);
 
 }
@@ -89,7 +89,7 @@ void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void)
 void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1)
 {
     while (1) {
-        Task_sleep(1000);
+        Task_sleep(200);
         GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
 	}
 }
@@ -97,7 +97,7 @@ void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, U
 void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1)
 {
     while (1) {
-        Task_sleep(666);
+        Task_sleep(133);
         GPIO_toggleOutputOnPin(GPIO_PORT_P9, LEDR);
     }
 }
@@ -107,6 +107,12 @@ void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, U
  */
 int main(void)
 {
+    // Watchdog (stop while init).
+    WDT_A_hold(WDT_A_BASE);
+
+    // FRAM optimisation
+    PM5CTL0 &= ~LOCKLPM5;
+
     // init
     initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge();
 
