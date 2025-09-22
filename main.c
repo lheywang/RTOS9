@@ -45,6 +45,7 @@
 /* BIOS Header files */
 #include <ti/sysbios/BIOS.h>
 #include <ti/sysbios/knl/Task.h>
+#include <ti/sysbios/knl/Event.h>
 
 /* TI-RTOS Header files */
 // #include <ti/drivers/GPIO.h>
@@ -62,9 +63,10 @@
 
 // proto
 void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void);
-void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1);
 void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1);
 void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemaisonsenfouspuisquelecompilateurestsuffisamentbonpouroptimisertoutapparament(unsigned index);
+void jesuisuneventjedetesteayaddetoutemonameetmoncorpsjepourraislebruler(UArg arg0, UArg arg1);
+void jesuisunautreevenementetjedetestetoujoursautantayadviteaubucher(UArg arg0, UArg arg1);
 
 /*
  *  ======== heartBeatFxn ========
@@ -92,14 +94,6 @@ void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void)
 
 }
 
-void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1)
-{
-    while (1) {
-        Task_sleep(1000);
-        GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
-	}
-}
-
 void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1)
 {
     while (1) {
@@ -115,20 +109,73 @@ void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemais
     switch (status)
     {
     case BTN1 :
-        GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
+        Event_post(h_eventnuuuuuuuuuuuuuuuumllllllllllllllll, EVENT_BTN1);
         GPIO_clearInterrupt(GPIO_PORT_P1, BTN1);
         break;
 
     case BTN2 :
-        GPIO_toggleOutputOnPin(GPIO_PORT_P9, LEDR);
+        Event_post(h_eventnuuuuuuuuuuuuuuuumllllllllllllllll, EVENT_BTN2);
         GPIO_clearInterrupt(GPIO_PORT_P1, BTN2);
         break;
 
     default :
         break;
     }
+}
+
+void jesuisuneventjedetesteayaddetoutemonameetmoncorpsjepourraislebruler(UArg arg0, UArg arg1)
+{
+   uint16_t posted;
+
+   while(1)
+   {
+       posted = Event_pend(
+               h_eventnuuuuuuuuuuuuuuuumllllllllllllllll,
+               Event_Id_NONE,
+               EVENT_BTN1,
+               TIMEOUT
+               );
+
+       switch (posted)
+       {
+       case EVENT_BTN1 :
+           GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
+           break;
+
+       default:
+           break;
+       }
+
+       Task_sleep(50);
+   }
+}
+
+void jesuisunautreevenementetjedetestetoujoursautantayadviteaubucher(UArg arg0, UArg arg1)
+{
+   uint16_t posted;
+
+   while(1)
+   {
+       posted = Event_pend(
+               h_eventnuuuuuuuuuuuuuuuumllllllllllllllll,
+               Event_Id_NONE,
+               EVENT_BTN2,
+               TIMEOUT
+               );
 
 
+       switch (posted)
+          {
+          case EVENT_BTN2 :
+              GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
+              break;
+
+          default:
+              break;
+          }
+
+      Task_sleep(50);
+   }
 }
 
 /*
