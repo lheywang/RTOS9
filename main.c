@@ -33,8 +33,14 @@
 /*
  *  ======== empty_min.c ========
  */
+#include <stdint.h>
+#include <stdbool.h>
+#include <string.h>
+
 /* XDCtools Header files */
 #include <xdc/std.h>
+#include <xdc/runtime/System.h>
+#include <xdc/cfg/global.h>
 
 /* BIOS Header files */
 #include <ti/sysbios/BIOS.h>
@@ -49,8 +55,10 @@
 // #include <ti/drivers/Watchdog.h>
 // #include <ti/drivers/WiFi.h>
 
+#include <driverlib.h>
+
 /* Board Header file */
-#include "Board.h"
+#include "main.h"
 
 #define TASKSTACKSIZE   512
 
