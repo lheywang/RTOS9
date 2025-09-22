@@ -64,6 +64,7 @@
 void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void);
 void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1);
 void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1);
+void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemaisonsenfouspuisquelecompilateurestsuffisamentbonpouroptimisertoutapparament(unsigned index);
 
 /*
  *  ======== heartBeatFxn ========
@@ -84,12 +85,17 @@ void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void)
     GPIO_setAsOutputPin(GPIO_PORT_P9, LEDR);
     GPIO_setOutputLowOnPin(GPIO_PORT_P9, LEDR);
 
+    // interrpute :=====================================D
+    GPIO_selectInterruptEdge(GPIO_PORT_P1, BTN1 + BTN2, GPIO_HIGH_TO_LOW_TRANSITION);
+    GPIO_clearInterrupt(GPIO_PORT_P1, BTN1 + BTN2);
+    GPIO_enableInterrupt(GPIO_PORT_P1, BTN1 + BTN2);
+
 }
 
 void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1)
 {
     while (1) {
-        Task_sleep(200);
+        Task_sleep(1000);
         GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
 	}
 }
@@ -97,9 +103,32 @@ void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, U
 void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1)
 {
     while (1) {
-        Task_sleep(133);
+        Task_sleep(1100);
         GPIO_toggleOutputOnPin(GPIO_PORT_P9, LEDR);
     }
+}
+
+void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemaisonsenfouspuisquelecompilateurestsuffisamentbonpouroptimisertoutapparament(unsigned index)
+{
+    uint16_t status = GPIO_getInterruptStatus(GPIO_PORT_P1, BTN1 + BTN2);
+
+    switch (status)
+    {
+    case BTN1 :
+        GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
+        GPIO_clearInterrupt(GPIO_PORT_P1, BTN1);
+        break;
+
+    case BTN2 :
+        GPIO_toggleOutputOnPin(GPIO_PORT_P9, LEDR);
+        GPIO_clearInterrupt(GPIO_PORT_P1, BTN2);
+        break;
+
+    default :
+        break;
+    }
+
+
 }
 
 /*
