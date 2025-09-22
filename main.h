@@ -7,4 +7,6 @@
 #define LEDV    GPIO_PIN0
 #define LEDR    GPIO_PIN7
 
+void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void);
+
 #endif

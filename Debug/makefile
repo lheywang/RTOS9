@@ -10,8 +10,7 @@ GEN_OPTS__FLAG := --cmd_file="configPkg/compiler.opt"
 GEN_CMDS__FLAG := -l"configPkg/linker.cmd" 
 
 ORDERED_OBJS += \
-"./MSP_EXP430FR6989.obj" \
-"./empty_min.obj" \
+"./main.obj" \
 "../MSP_EXP430FR6989.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibmpu_init.a \
@@ -145,8 +144,8 @@ TP_RTOS2.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "MSP_EXP430FR6989.obj" "empty_min.obj" 
-	-$(RM) "MSP_EXP430FR6989.d" "empty_min.d" 
+	-$(RM) "main.obj" 
+	-$(RM) "main.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '

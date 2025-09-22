@@ -12,8 +12,7 @@ CMD_SRCS += \
 ../MSP_EXP430FR6989.cmd 
 
 C_SRCS += \
-../MSP_EXP430FR6989.c \
-../empty_min.c 
+../main.c 
 
 GEN_CMDS += \
 ./configPkg/linker.cmd 
@@ -26,33 +25,28 @@ GEN_MISC_DIRS += \
 ./configPkg 
 
 C_DEPS += \
-./MSP_EXP430FR6989.d \
-./empty_min.d 
+./main.d 
 
 GEN_OPTS += \
 ./configPkg/compiler.opt 
 
 OBJS += \
-./MSP_EXP430FR6989.obj \
-./empty_min.obj 
+./main.obj 
 
 GEN_MISC_DIRS__QUOTED += \
 "configPkg" 
 
 OBJS__QUOTED += \
-"MSP_EXP430FR6989.obj" \
-"empty_min.obj" 
+"main.obj" 
 
 C_DEPS__QUOTED += \
-"MSP_EXP430FR6989.d" \
-"empty_min.d" 
+"main.d" 
 
 GEN_FILES__QUOTED += \
 "configPkg\linker.cmd" \
 "configPkg\compiler.opt" 
 
 C_SRCS__QUOTED += \
-"../MSP_EXP430FR6989.c" \
-"../empty_min.c" 
+"../main.c" 
 
 

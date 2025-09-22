@@ -60,22 +60,46 @@
 /* Board Header file */
 #include "main.h"
 
-#define TASKSTACKSIZE   512
-
-Task_Struct task0Struct;
-Char task0Stack[TASKSTACKSIZE];
+// proto
+void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void);
+void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1);
+void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1);
 
 /*
  *  ======== heartBeatFxn ========
  *  Toggle the Board_LED0. The Task_sleep is determined by arg0 which
  *  is configured for the heartBeat Task instance.
  */
-Void heartBeatFxn(UArg arg0, UArg arg1)
+
+void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void)
+{
+    // porc 1 :=====================================D
+    GPIO_setOutputHighOnPin(GPIO_PORT_P1, LEDV);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P1, LEDV);
+    // GPIO_setAsInputPin(GPIO_PORT_P1, BTN1 + BTN2);
+    GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, BTN1 + BTN2);
+    GPIO_enableInterrupt(GPIO_PORT_P1, BTN1 + BTN2);
+
+    // porc 9 :=====================================D
+    GPIO_setOutputHighOnPin(GPIO_PORT_P9, LEDR);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P9, LEDR);
+
+}
+
+void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1)
 {
     while (1) {
-        Task_sleep((unsigned int)arg0);
-        GPIO_toggle(Board_LED0);
+        Task_sleep(1000);
+        GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
 	}
+}
+
+void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1)
+{
+    while (1) {
+        Task_sleep(666);
+        GPIO_toggleOutputOnPin(GPIO_PORT_P9, LEDR);
+    }
 }
 
 /*
@@ -83,30 +107,10 @@ Void heartBeatFxn(UArg arg0, UArg arg1)
  */
 int main(void)
 {
-    Task_Params taskParams;
-
-    /* Call board init functions */
-    Board_initGeneral();
-    Board_initGPIO();
-    // Board_initI2C();
-    // Board_initSDSPI();
-    // Board_initSPI();
-    // Board_initUART();
-    // Board_initWatchdog();
-    // Board_initWiFi();
-
-    /* Construct heartBeat Task  thread */
-    Task_Params_init(&taskParams);
-    taskParams.arg0 = 1000;
-    taskParams.stackSize = TASKSTACKSIZE;
-    taskParams.stack = &task0Stack;
-    Task_construct(&task0Struct, (Task_FuncPtr)heartBeatFxn, &taskParams, NULL);
-
-    /* Turn on user LED  */
-    GPIO_write(Board_LED0, Board_LED_ON);
+    // init
+    initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge();
 
     /* Start BIOS */
     BIOS_start();
-
     return (0);
 }

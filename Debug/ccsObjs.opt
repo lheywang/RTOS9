@@ -1,5 +1,4 @@
-"./MSP_EXP430FR6989.obj"
-"./empty_min.obj"
+"./main.obj"
 "../MSP_EXP430FR6989.cmd"
 -l"configPkg/linker.cmd"
 -llibmpu_init.a
