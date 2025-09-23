@@ -1,1 +1,1 @@
-C:\ti\tirtos_msp43x_2_20_00_06\products\msp430_driverlib_2_70_01_01a\doc\MSP430FR5xx_6xx\ht
+C:\ti\tirtos_msp43x_2_20_00_06\products\msp430_driverlib_2_70_01_01a\doc\MSP430FR5xx_6xx

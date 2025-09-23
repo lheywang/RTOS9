@@ -66,6 +66,9 @@
 /* LCD lib */
 #include "hal_LCD.h"
 
+/* ADC lib*/
+#include "adc.h"
+
 // proto
 void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void);
 void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1);

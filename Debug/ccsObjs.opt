@@ -1,3 +1,4 @@
+"./adc.obj"
 "./hal_LCD.obj"
 "./main.obj"
 "../MSP_EXP430FR6989.cmd"
