@@ -22,6 +22,9 @@ extern const ti_sysbios_knl_Task_Handle h_jesuisunautreevenementetjedetestetoujo
 #include <ti/sysbios/knl/Event.h>
 extern const ti_sysbios_knl_Event_Handle h_eventnuuuuuuuuuuuuuuuumllllllllllllllll;
 
+#include <ti/sysbios/knl/Semaphore.h>
+extern const ti_sysbios_knl_Semaphore_Handle h_jesuisunesemaphore;
+
 extern int xdc_runtime_Startup__EXECFXN__C;
 
 extern int xdc_runtime_Startup__RESETFXN__C;

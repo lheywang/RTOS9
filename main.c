@@ -46,6 +46,8 @@
 #include <ti/sysbios/BIOS.h>
 #include <ti/sysbios/knl/Task.h>
 #include <ti/sysbios/knl/Event.h>
+#include <ti/sysbios/knl/Semaphore.h>
+
 
 /* TI-RTOS Header files */
 // #include <ti/drivers/GPIO.h>
@@ -60,6 +62,9 @@
 
 /* Board Header file */
 #include "main.h"
+
+/* LCD lib */
+#include "hal_LCD.h"
 
 // proto
 void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void);
@@ -139,7 +144,11 @@ void jesuisuneventjedetesteayaddetoutemonameetmoncorpsjepourraislebruler(UArg ar
        switch (posted)
        {
        case EVENT_BTN1 :
+           Semaphore_pend(h_jesuisunesemaphore, BIOS_WAIT_FOREVER);
+           ClearLCD();
+           DisplayScrollText(LCDstrupr("not remade because of errors"), 150);
            GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
+           Semaphore_post(h_jesuisunesemaphore);
            break;
 
        default:
@@ -167,7 +176,10 @@ void jesuisunautreevenementetjedetestetoujoursautantayadviteaubucher(UArg arg0, 
        switch (posted)
           {
           case EVENT_BTN2 :
+              Semaphore_pend(h_jesuisunesemaphore, BIOS_WAIT_FOREVER);
+              DisplayScrollText(LCDstrupr("too few arguments in function call"), 150);
               GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
+              Semaphore_post(h_jesuisunesemaphore);
               break;
 
           default:
@@ -191,6 +203,10 @@ int main(void)
 
     // init
     initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge();
+    Init_LCD();
+
+    // Display
+    DisplayText("AZERTY");
 
     /* Start BIOS */
     BIOS_start();
