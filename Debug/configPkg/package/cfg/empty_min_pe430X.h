@@ -14,9 +14,6 @@ extern const ti_sysbios_knl_Task_Handle h_jesuisuneventjedetesteayaddetoutemonam
 extern const ti_sysbios_family_msp430_Hwi_Handle h_jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemaisonsenfouspuisquelecompilateurestsuffisamentbonpouroptimisertoutapparament;
 
 #include <ti/sysbios/knl/Task.h>
-extern const ti_sysbios_knl_Task_Handle h_tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge;
-
-#include <ti/sysbios/knl/Task.h>
 extern const ti_sysbios_knl_Task_Handle h_jesuisunautreevenementetjedetestetoujoursautantayadviteaubucher;
 
 #include <ti/sysbios/knl/Event.h>
