@@ -64,12 +64,11 @@
 
 // proto
 void init_gpio(void);
-void tache0(UArg arg0, UArg arg1);
-void tache1(UArg arg0, UArg arg1);
 void irq0(unsigned index);
 void TimerBTN(unsigned index);
 
 void Event_BTNDelay(UArg arg0, UArg arg1);
+void Event_BTNDelay2(UArg arg0, UArg arg1);
 
 uint32_t millis;
 
@@ -98,22 +97,6 @@ void init_gpio(void)
     GPIO_enableInterrupt(GPIO_PORT_P1, BTN1 + BTN2);
 
     return;
-}
-
-void tache0(UArg arg0, UArg arg1)
-{
-    while (1) {
-        Task_sleep(1000);
-        GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
-	}
-}
-
-void tache1(UArg arg0, UArg arg1)
-{
-    while (1) {
-        Task_sleep(1100);
-        GPIO_toggleOutputOnPin(GPIO_PORT_P9, LEDR);
-    }
 }
 
 void irq0(unsigned index)
@@ -180,12 +163,58 @@ void Event_BTNDelay(UArg arg0, UArg arg1)
                 }
             }
             break;
+
         }
 
         Timer_stop(h_timer0);
         Task_sleep(50);
     }
 }
+
+// Could be combined with BTN1 + BTN2
+void Event_BTNDelay2(UArg arg0, UArg arg1)
+{
+    uint16_t posted;
+    uint32_t t;
+
+    while (1)
+    {
+        posted = Event_pend(
+                h_event0,
+                Event_Id_NONE,
+                Event_BTN2,
+                TIMEOUT
+        );
+
+        switch (posted)
+        {
+        case Event_BTN2:
+                t = millis;
+                Timer_start(h_timer0);
+
+                while (1)
+                {
+                    if(GPIO_getInputPinValue(GPIO_PORT_P1, BTN2)) // short
+                    {
+                        GPIO_setOutputHighOnPin(GPIO_PORT_P9, LEDR);
+                        break;
+                    }
+
+                    if ((millis-t) > TIMEOUT_LONG) // long
+                    {
+                        GPIO_setOutputLowOnPin(GPIO_PORT_P9, LEDR);
+                        break;
+                    }
+                }
+                break;
+
+        }
+
+        Timer_stop(h_timer0);
+        Task_sleep(50);
+    }
+}
+
 
 /*
  *  ======== main ========
