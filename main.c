@@ -47,20 +47,11 @@
 #include <ti/sysbios/knl/Task.h>
 #include <ti/sysbios/knl/Event.h>
 
-/* TI-RTOS Header files */
-// #include <ti/drivers/GPIO.h>
-// #include <ti/drivers/I2C.h>
-// #include <ti/drivers/SDSPI.h>
-// #include <ti/drivers/SPI.h>
-// #include <ti/drivers/UART.h>
-// #include <ti/drivers/Watchdog.h>
-// #include <ti/drivers/WiFi.h>
-
 #include <driverlib.h>
 
 /* Board Header file */
 #include "main.h"
-#include "hal_LCD.h"
+#include "uart.h"
 
 // proto
 void init_gpio(void);
@@ -229,6 +220,7 @@ int main(void)
 
     // init
     init_gpio();
+    init_Uart();
 
     /* Start BIOS */
     BIOS_start();

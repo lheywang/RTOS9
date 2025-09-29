@@ -12,8 +12,8 @@ CMD_SRCS += \
 ../MSP_EXP430FR6989.cmd 
 
 C_SRCS += \
-../hal_LCD.c \
-../main.c 
+../main.c \
+../uart.c 
 
 GEN_CMDS += \
 ./configPkg/linker.cmd 
@@ -26,33 +26,33 @@ GEN_MISC_DIRS += \
 ./configPkg 
 
 C_DEPS += \
-./hal_LCD.d \
-./main.d 
+./main.d \
+./uart.d 
 
 GEN_OPTS += \
 ./configPkg/compiler.opt 
 
 OBJS += \
-./hal_LCD.obj \
-./main.obj 
+./main.obj \
+./uart.obj 
 
 GEN_MISC_DIRS__QUOTED += \
 "configPkg" 
 
 OBJS__QUOTED += \
-"hal_LCD.obj" \
-"main.obj" 
+"main.obj" \
+"uart.obj" 
 
 C_DEPS__QUOTED += \
-"hal_LCD.d" \
-"main.d" 
+"main.d" \
+"uart.d" 
 
 GEN_FILES__QUOTED += \
 "configPkg\linker.cmd" \
 "configPkg\compiler.opt" 
 
 C_SRCS__QUOTED += \
-"../hal_LCD.c" \
-"../main.c" 
+"../main.c" \
+"../uart.c" 
 
 
