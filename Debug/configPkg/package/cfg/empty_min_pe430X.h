@@ -34,6 +34,9 @@ extern const ti_sysbios_family_msp430_Hwi_Handle h_IRQ_Adc;
 #include <ti/sysbios/knl/Event.h>
 extern const ti_sysbios_knl_Event_Handle h_event_Adc;
 
+#include <ti/sysbios/family/msp430/Hwi.h>
+extern const ti_sysbios_family_msp430_Hwi_Handle h_rtc_irq;
+
 extern int xdc_runtime_Startup__EXECFXN__C;
 
 extern int xdc_runtime_Startup__RESETFXN__C;

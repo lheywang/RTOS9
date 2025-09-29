@@ -130,7 +130,8 @@ void Tache1(unsigned index)
         break;
 
     case BTN2 :
-        Event_post(h_event_button, EVENT_BTN2);
+        //Event_post(h_event_button, EVENT_BTN2);
+        rtc_display();
         GPIO_clearInterrupt(GPIO_PORT_P1, BTN2);
         break;
 
