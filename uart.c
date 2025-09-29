@@ -26,12 +26,13 @@ uint8_t RxData, TxData;
 void init_Uart(void)
 {
     GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P3,
-                                               RXD,
+                                               RXD + TXD,
                                                GPIO_PRIMARY_MODULE_FUNCTION);
+    /*
     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P3,
                                                TXD,
                                                GPIO_PRIMARY_MODULE_FUNCTION);
-
+    */
     // Configure UART peripheral
     EUSCI_A_UART_initParam Uart_cfg = { .clockPrescalar =       4,
                                         .firstModReg =          5,
@@ -44,6 +45,7 @@ void init_Uart(void)
                                         .uartMode =             EUSCI_A_UART_MODE
     };
     EUSCI_A_UART_init(EUSCI_A1_BASE, &Uart_cfg);
+    EUSCI_A_UART_enable(EUSCI_A1_BASE);
 
     EUSCI_A_UART_clearInterrupt(
             EUSCI_A1_BASE,
@@ -53,6 +55,8 @@ void init_Uart(void)
             EUSCI_A1_BASE,
             EUSCI_A_UART_RECEIVE_INTERRUPT_FLAG + EUSCI_A_UART_TRANSMIT_INTERRUPT_FLAG
     );
+
+    EUSCI_A_UART_enable(EUSCI_A1_BASE);
 
     return;
 }

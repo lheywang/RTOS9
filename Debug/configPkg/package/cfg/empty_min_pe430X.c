@@ -1090,7 +1090,7 @@ ti_sysbios_BIOS_Module_State__ ti_sysbios_BIOS_Module__state__V;
  */
 
 /* Object__table__V */
-ti_sysbios_family_msp430_Hwi_Object__ ti_sysbios_family_msp430_Hwi_Object__table__V[3];
+ti_sysbios_family_msp430_Hwi_Object__ ti_sysbios_family_msp430_Hwi_Object__table__V[4];
 
 /* Module_State__ */
 typedef struct ti_sysbios_family_msp430_Hwi_Module_State__ {
@@ -2727,7 +2727,7 @@ ti_sysbios_family_msp430_Hwi_Module__ ti_sysbios_family_msp430_Hwi_Module__root_
 };
 
 /* Object__table__V */
-ti_sysbios_family_msp430_Hwi_Object__ ti_sysbios_family_msp430_Hwi_Object__table__V[3] = {
+ti_sysbios_family_msp430_Hwi_Object__ ti_sysbios_family_msp430_Hwi_Object__table__V[4] = {
     {/* instance#0 */
         0,
         (xdc_Int)0x25,  /* intNum */
@@ -2736,11 +2736,17 @@ ti_sysbios_family_msp430_Hwi_Object__ ti_sysbios_family_msp430_Hwi_Object__table
     },
     {/* instance#1 */
         0,
-        (xdc_Int)0x27,  /* intNum */
+        (xdc_Int)0x2a,  /* intNum */
         ((xdc_UArg)0),  /* irp */
         ((void*)0),  /* hookEnv */
     },
     {/* instance#2 */
+        0,
+        (xdc_Int)0x27,  /* intNum */
+        ((xdc_UArg)0),  /* irp */
+        ((void*)0),  /* hookEnv */
+    },
+    {/* instance#3 */
         0,
         (xdc_Int)0x2c,  /* intNum */
         ((xdc_UArg)0),  /* irp */
@@ -2820,7 +2826,7 @@ __FAR__ const CT__ti_sysbios_family_msp430_Hwi_Module__startupDoneFxn ti_sysbios
 
 /* Object__count__C */
 #pragma DATA_SECTION(ti_sysbios_family_msp430_Hwi_Object__count__C, ".const:ti_sysbios_family_msp430_Hwi_Object__count__C");
-__FAR__ const CT__ti_sysbios_family_msp430_Hwi_Object__count ti_sysbios_family_msp430_Hwi_Object__count__C = 3;
+__FAR__ const CT__ti_sysbios_family_msp430_Hwi_Object__count ti_sysbios_family_msp430_Hwi_Object__count__C = 4;
 
 /* Object__heap__C */
 #pragma DATA_SECTION(ti_sysbios_family_msp430_Hwi_Object__heap__C, ".const:ti_sysbios_family_msp430_Hwi_Object__heap__C");
@@ -3213,7 +3219,7 @@ ti_sysbios_family_msp430_Timer_Object__ ti_sysbios_family_msp430_Timer_Object__t
             (xdc_Bits32)0x0,  /* hi */
             (xdc_Bits32)0x9897,  /* lo */
         },  /* frequency */
-        (ti_sysbios_family_msp430_Hwi_Handle)&ti_sysbios_family_msp430_Hwi_Object__table__V[1],  /* hwi */
+        (ti_sysbios_family_msp430_Hwi_Handle)&ti_sysbios_family_msp430_Hwi_Object__table__V[2],  /* hwi */
         (xdc_UInt)0x0,  /* prevThreshold */
         (xdc_UInt)0x0,  /* savedCurrCount */
         (xdc_UInt32)0x0,  /* rollovers */
@@ -3237,7 +3243,7 @@ ti_sysbios_family_msp430_Timer_Object__ ti_sysbios_family_msp430_Timer_Object__t
             (xdc_Bits32)0x0,  /* hi */
             (xdc_Bits32)0x9897,  /* lo */
         },  /* frequency */
-        (ti_sysbios_family_msp430_Hwi_Handle)&ti_sysbios_family_msp430_Hwi_Object__table__V[2],  /* hwi */
+        (ti_sysbios_family_msp430_Hwi_Handle)&ti_sysbios_family_msp430_Hwi_Object__table__V[3],  /* hwi */
         (xdc_UInt)0x0,  /* prevThreshold */
         (xdc_UInt)0x0,  /* savedCurrCount */
         (xdc_UInt32)0x0,  /* rollovers */
@@ -11611,4 +11617,11 @@ const ti_sysbios_hal_Timer_Handle h_timer0 = (ti_sysbios_hal_Timer_Handle)((ti_s
 #endif
 #endif
 const ti_sysbios_knl_Task_Handle h_Event_BTNDelay2 = (ti_sysbios_knl_Task_Handle)((ti_sysbios_knl_Task_Handle)&ti_sysbios_knl_Task_Object__table__V[1]);
+
+#ifdef __GNUC__
+#ifndef __TI_COMPILER_VERSION__
+    __attribute__ ((externally_visible))
+#endif
+#endif
+const ti_sysbios_family_msp430_Hwi_Handle h_irq_uart = (ti_sysbios_family_msp430_Hwi_Handle)((ti_sysbios_family_msp430_Hwi_Handle)&ti_sysbios_family_msp430_Hwi_Object__table__V[1]);
 
