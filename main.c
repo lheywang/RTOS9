@@ -82,6 +82,7 @@ void Event_Button2(UArg arg0, UArg arg1);
 void Event_Button(UArg arg0, UArg arg1);
 void Event_Adc(UArg arg0, UArg arg1);
 void Event_Rtc(UArg arg0, UArg arg1);
+void Event_Mail(UArg arg0, UArg arg1);
 
 /*
  *  ======== heartBeatFxn ========
@@ -109,6 +110,9 @@ void gpio_init(void)
 
 }
 
+/*
+ * Idle task
+ */
 void Tache0(UArg arg0, UArg arg1)
 {
     while (1) {
@@ -117,6 +121,9 @@ void Tache0(UArg arg0, UArg arg1)
     }
 }
 
+/*
+ * Used as interrupt
+ */
 void Tache1(unsigned index)
 {
     uint16_t status = GPIO_getInterruptStatus(GPIO_PORT_P1, BTN1 + BTN2);
@@ -124,14 +131,20 @@ void Tache1(unsigned index)
     switch (status)
     {
     case BTN1 :
+        ADC_Display();
         Start_Conv();
-        //Event_post(h_event_button, EVENT_BTN1);
+
+        Msg.Val = 0;
+        Mailbox_post(h_mailbox0, &Msg, BIOS_NO_WAIT);
+
         GPIO_clearInterrupt(GPIO_PORT_P1, BTN1);
         break;
 
     case BTN2 :
-        //Event_post(h_event_button, EVENT_BTN2);
+        Msg.Val = 1;
+        Mailbox_post(h_mailbox0, &Msg, BIOS_NO_WAIT);
         rtc_display();
+
         GPIO_clearInterrupt(GPIO_PORT_P1, BTN2);
         break;
 
@@ -140,6 +153,9 @@ void Tache1(unsigned index)
     }
 }
 
+/*
+ * Unused
+ */
 void Event_Button2(UArg arg0, UArg arg1)
 {
    uint16_t posted;
@@ -159,7 +175,7 @@ void Event_Button2(UArg arg0, UArg arg1)
            Semaphore_pend(h_semaphore0, BIOS_WAIT_FOREVER);
            ClearLCD();
            DisplayScrollText(LCDstrupr("not remade because of errors"), 150);
-           GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
+           // GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
            Semaphore_post(h_semaphore0);
            break;
 
@@ -171,6 +187,9 @@ void Event_Button2(UArg arg0, UArg arg1)
    }
 }
 
+/*
+ * Unused
+ */
 void Event_Button(UArg arg0, UArg arg1)
 {
    uint16_t posted;
@@ -190,7 +209,7 @@ void Event_Button(UArg arg0, UArg arg1)
           case EVENT_BTN2 :
               Semaphore_pend(h_semaphore0, BIOS_WAIT_FOREVER);
               DisplayScrollText(LCDstrupr("TARTE AU CACAAAAAAA !"), 150);
-              GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
+              // GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
               Semaphore_post(h_semaphore0);
               break;
 
@@ -202,6 +221,9 @@ void Event_Button(UArg arg0, UArg arg1)
    }
 }
 
+/*
+ * Event ADC
+ */
 void Event_Adc(UArg arg0, UArg arg1)
 {
 
@@ -227,6 +249,9 @@ void Event_Adc(UArg arg0, UArg arg1)
     }
 }
 
+/*
+ * Event RTC
+ */
 void Event_Rtc (UArg arg0, UArg arg1)
 {
 
@@ -244,6 +269,30 @@ void Event_Rtc (UArg arg0, UArg arg1)
         {
         case EVENT_RTC :
             rtc_display();
+            break;
+        }
+
+        Task_sleep(50);
+    }
+}
+
+/*
+ * Event Mail
+ */
+void Event_Mail(UArg arg0, UArg arg1)
+{
+    while (1)
+    {
+        Mailbox_pend(h_mailbox0, &Msg2, BIOS_WAIT_FOREVER);
+
+        switch (Msg2.Val)
+        {
+        case 0:
+            GPIO_setOutputHighOnPin(GPIO_PORT_P1, LEDV);
+            break;
+
+        case 1:
+            GPIO_setOutputLowOnPin(GPIO_PORT_P1, LEDV);
             break;
         }
 

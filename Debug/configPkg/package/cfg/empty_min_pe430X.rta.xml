@@ -8,7 +8,7 @@
   <dataTransportClassName>undefined</dataTransportClassName>
   <controlTransportClassName>undefined</controlTransportClassName>
   <loggers-length>0</loggers-length>
-  <modMap-length>33</modMap-length>
+  <modMap-length>34</modMap-length>
   <modMap key="xdc.runtime.Assert">
     <id>1</id>
     <logger>null</logger>
@@ -129,48 +129,53 @@
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.knl.Queue">
+  <modMap key="ti.sysbios.knl.Mailbox">
     <id>29</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.knl.Semaphore">
+  <modMap key="ti.sysbios.knl.Queue">
     <id>30</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.knl.Swi">
+  <modMap key="ti.sysbios.knl.Semaphore">
     <id>31</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.knl.Task">
+  <modMap key="ti.sysbios.knl.Swi">
     <id>32</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
+  <modMap key="ti.sysbios.knl.Task">
+    <id>33</id>
+    <logger>null</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
   <modMap key="ti.sysbios.hal.Hwi">
-    <id>36</id>
+    <id>37</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
   <modMap key="ti.sysbios.BIOS">
-    <id>38</id>
+    <id>39</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
   <modMap key="ti.sysbios.gates.GateHwi">
-    <id>40</id>
-    <logger>null</logger>
-    <diagsMask>0000110000000000</diagsMask>
-  </modMap>
-  <modMap key="ti.sysbios.gates.GateMutex">
     <id>41</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
-  <modMap key="ti.sysbios.heaps.HeapMem">
+  <modMap key="ti.sysbios.gates.GateMutex">
     <id>42</id>
+    <logger>null</logger>
+    <diagsMask>0000110000000000</diagsMask>
+  </modMap>
+  <modMap key="ti.sysbios.heaps.HeapMem">
+    <id>43</id>
     <logger>null</logger>
     <diagsMask>0000110000000000</diagsMask>
   </modMap>
