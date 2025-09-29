@@ -385,7 +385,7 @@ extern Void ti_sysbios_family_msp430_Hwi37_p2(Void);
 #if defined(__ICC430__)
 #pragma inline=never
 #endif
-extern Void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemaisonsenfouspuisquelecompilateurestsuffisamentbonpouroptimisertoutapparament(UArg);
+extern Void irq0(UArg);
 #if defined(__ICC430__)
 #pragma vector = 37 * 2
 #else
@@ -418,7 +418,7 @@ Void ti_sysbios_family_msp430_Hwi37_p2(Void)
     prevThreadType = ti_sysbios_BIOS_setThreadType(ti_sysbios_BIOS_ThreadType_Hwi);
 
     /* run ISR function */
-    jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemaisonsenfouspuisquelecompilateurestsuffisamentbonpouroptimisertoutapparament(0);
+    irq0(0);
 
     /* run any posted Swis */
     ti_sysbios_knl_Swi_restoreHwi(swiKey);
@@ -438,6 +438,14 @@ __interrupt Void ti_sysbios_family_msp430_Hwi38(Void)
     while(1){};
 }
 
+extern Void ti_sysbios_family_xxx_Hwi_switchAndRunFunc(Void (*func)());
+
+extern Void ti_sysbios_family_msp430_Hwi39_p2(Void);
+
+#if defined(__ICC430__)
+#pragma inline=never
+#endif
+extern Void ti_sysbios_family_msp430_Timer_periodicStub__E(UArg);
 #if defined(__ICC430__)
 #pragma vector = 39 * 2
 #else
@@ -445,7 +453,39 @@ __interrupt Void ti_sysbios_family_msp430_Hwi38(Void)
 #endif
 __interrupt Void ti_sysbios_family_msp430_Hwi39(Void)
 {
-    while(1){};
+    UInt taskKey;
+
+    /* disable Task scheduler */
+    taskKey = ti_sysbios_knl_Task_disable();
+
+    /* switch stacks and then run the phase 2 function */
+    ti_sysbios_family_xxx_Hwi_switchAndRunFunc(&ti_sysbios_family_msp430_Hwi39_p2);
+
+    /* handle any Task re-scheduling as required */
+    ti_sysbios_knl_Task_restoreHwi(taskKey);
+
+}
+
+Void ti_sysbios_family_msp430_Hwi39_p2(Void)
+{
+    ti_sysbios_BIOS_ThreadType prevThreadType;
+    UInt swiKey;
+
+    /* disable Swi scheduler */
+    swiKey = ti_sysbios_knl_Swi_disable();
+
+    /* set thread type to Hwi */
+    prevThreadType = ti_sysbios_BIOS_setThreadType(ti_sysbios_BIOS_ThreadType_Hwi);
+
+    /* run ISR function */
+    ti_sysbios_family_msp430_Timer_periodicStub__E(1);
+
+    /* run any posted Swis */
+    ti_sysbios_knl_Swi_restoreHwi(swiKey);
+
+    /* restore thread type */
+    ti_sysbios_BIOS_setThreadType(prevThreadType);
+
 }
 
 #if defined(__ICC430__)

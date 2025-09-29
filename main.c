@@ -45,6 +45,7 @@
 /* BIOS Header files */
 #include <ti/sysbios/BIOS.h>
 #include <ti/sysbios/knl/Task.h>
+#include <ti/sysbios/knl/Event.h>
 
 /* TI-RTOS Header files */
 // #include <ti/drivers/GPIO.h>
@@ -59,12 +60,18 @@
 
 /* Board Header file */
 #include "main.h"
+#include "hal_LCD.h"
 
 // proto
-void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void);
-void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1);
-void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1);
-void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemaisonsenfouspuisquelecompilateurestsuffisamentbonpouroptimisertoutapparament(unsigned index);
+void init_gpio(void);
+void tache0(UArg arg0, UArg arg1);
+void tache1(UArg arg0, UArg arg1);
+void irq0(unsigned index);
+void TimerBTN(unsigned index);
+
+void Event_BTNDelay(UArg arg0, UArg arg1);
+
+uint32_t millis;
 
 /*
  *  ======== heartBeatFxn ========
@@ -72,7 +79,7 @@ void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemais
  *  is configured for the heartBeat Task instance.
  */
 
-void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void)
+void init_gpio(void)
 {
     // porc 1 :=====================================D
     GPIO_setAsOutputPin(GPIO_PORT_P1, LEDV);
@@ -90,9 +97,10 @@ void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void)
     GPIO_clearInterrupt(GPIO_PORT_P1, BTN1 + BTN2);
     GPIO_enableInterrupt(GPIO_PORT_P1, BTN1 + BTN2);
 
+    return;
 }
 
-void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1)
+void tache0(UArg arg0, UArg arg1)
 {
     while (1) {
         Task_sleep(1000);
@@ -100,7 +108,7 @@ void tache0parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, U
 	}
 }
 
-void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1)
+void tache1(UArg arg0, UArg arg1)
 {
     while (1) {
         Task_sleep(1100);
@@ -108,19 +116,19 @@ void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, U
     }
 }
 
-void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemaisonsenfouspuisquelecompilateurestsuffisamentbonpouroptimisertoutapparament(unsigned index)
+void irq0(unsigned index)
 {
     uint16_t status = GPIO_getInterruptStatus(GPIO_PORT_P1, BTN1 + BTN2);
 
     switch (status)
     {
     case BTN1 :
-        GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
+        Event_post(h_event0, Event_BTN1);
         GPIO_clearInterrupt(GPIO_PORT_P1, BTN1);
         break;
 
     case BTN2 :
-        GPIO_toggleOutputOnPin(GPIO_PORT_P9, LEDR);
+        Event_post(h_event0, Event_BTN2);
         GPIO_clearInterrupt(GPIO_PORT_P1, BTN2);
         break;
 
@@ -128,7 +136,55 @@ void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemais
         break;
     }
 
+    return;
+}
 
+void TimerBTN(unsigned index)
+{
+    millis += 1;
+    return;
+}
+
+void Event_BTNDelay(UArg arg0, UArg arg1)
+{
+    uint16_t posted;
+    uint32_t t;
+
+    while (1)
+    {
+        posted = Event_pend(
+                h_event0,
+                Event_Id_NONE,
+                Event_BTN1,
+                TIMEOUT
+        );
+
+        switch (posted)
+        {
+        case Event_BTN1:
+            t = millis;
+            Timer_start(h_timer0);
+
+            while (1)
+            {
+                if(GPIO_getInputPinValue(GPIO_PORT_P1, BTN1)) // short
+                {
+                    GPIO_setOutputHighOnPin(GPIO_PORT_P1, LEDV);
+                    break;
+                }
+
+                if ((millis-t) > TIMEOUT_LONG) // long
+                {
+                    GPIO_setOutputLowOnPin(GPIO_PORT_P1, LEDV);
+                    break;
+                }
+            }
+            break;
+        }
+
+        Timer_stop(h_timer0);
+        Task_sleep(50);
+    }
 }
 
 /*
@@ -143,7 +199,7 @@ int main(void)
     PM5CTL0 &= ~LOCKLPM5;
 
     // init
-    initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge();
+    init_gpio();
 
     /* Start BIOS */
     BIOS_start();

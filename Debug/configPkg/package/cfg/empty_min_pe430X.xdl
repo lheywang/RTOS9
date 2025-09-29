@@ -116,9 +116,9 @@
 
 /* Content from ti.sysbios.hal (null): */
 
-/* Content from ti.sysbios.knl (null): */
-
 /* Content from ti.sysbios.family.msp430 (null): */
+
+/* Content from ti.sysbios.knl (null): */
 
 /* Content from ti.drivers (null): */
 
