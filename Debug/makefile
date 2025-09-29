@@ -13,6 +13,7 @@ ORDERED_OBJS += \
 "./adc.obj" \
 "./hal_LCD.obj" \
 "./main.obj" \
+"./rtc.obj" \
 "../MSP_EXP430FR6989.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibmpu_init.a \
@@ -146,8 +147,8 @@ TP_RTOS2.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "adc.obj" "hal_LCD.obj" "main.obj" 
-	-$(RM) "adc.d" "hal_LCD.d" "main.d" 
+	-$(RM) "adc.obj" "hal_LCD.obj" "main.obj" "rtc.obj" 
+	-$(RM) "adc.d" "hal_LCD.d" "main.d" "rtc.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '

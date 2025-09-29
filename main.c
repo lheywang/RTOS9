@@ -69,13 +69,19 @@
 /* ADC lib*/
 #include "adc.h"
 
+/* RTC lib*/
+#include "rtc.h"
+
 // proto
 void gpio_init(void);
+
 void Tache0(UArg arg0, UArg arg1);
 void Tache1(unsigned index);
+
 void Event_Button2(UArg arg0, UArg arg1);
 void Event_Button(UArg arg0, UArg arg1);
 void Event_Adc(UArg arg0, UArg arg1);
+void Event_Rtc(UArg arg0, UArg arg1);
 
 /*
  *  ======== heartBeatFxn ========
@@ -220,6 +226,30 @@ void Event_Adc(UArg arg0, UArg arg1)
     }
 }
 
+void Event_Rtc (UArg arg0, UArg arg1)
+{
+
+    uint16_t Posted;
+    while (1)
+    {
+        Posted = Event_pend(
+                h_event_rtc,
+                Event_Id_NONE,
+                EVENT_RTC,
+                TIMEOUT
+                );
+
+        switch (Posted)
+        {
+        case EVENT_RTC :
+            rtc_display();
+            break;
+        }
+
+        Task_sleep(50);
+    }
+}
+
 /*
  *  ======== main ========
  */
@@ -235,6 +265,7 @@ int main(void)
     gpio_init();
     Init_LCD();
     Init_ADC();
+    rtc_init();
 
     // Display
     DisplayText("AZERTY");

@@ -1175,7 +1175,7 @@ extern xdc_Void ti_sysbios_knl_Clock_doTick__I(xdc_UArg);
  */
 
 /* Object__table__V */
-ti_sysbios_knl_Event_Object__ ti_sysbios_knl_Event_Object__table__V[2];
+ti_sysbios_knl_Event_Object__ ti_sysbios_knl_Event_Object__table__V[3];
 
 
 /*
@@ -4067,7 +4067,7 @@ ti_sysbios_knl_Event_Module__ ti_sysbios_knl_Event_Module__root__V = {
 };
 
 /* Object__table__V */
-ti_sysbios_knl_Event_Object__ ti_sysbios_knl_Event_Object__table__V[2] = {
+ti_sysbios_knl_Event_Object__ ti_sysbios_knl_Event_Object__table__V[3] = {
     {/* instance#0 */
         (xdc_UInt)0x0,  /* postedEvents */
         {
@@ -4083,6 +4083,15 @@ ti_sysbios_knl_Event_Object__ ti_sysbios_knl_Event_Object__table__V[2] = {
             {
                 ((ti_sysbios_knl_Queue_Elem*)((void*)&ti_sysbios_knl_Event_Object__table__V[1].Object_field_pendQ.elem)),  /* next */
                 ((ti_sysbios_knl_Queue_Elem*)((void*)&ti_sysbios_knl_Event_Object__table__V[1].Object_field_pendQ.elem)),  /* prev */
+            },  /* elem */
+        },  /* Object_field_pendQ */
+    },
+    {/* instance#2 */
+        (xdc_UInt)0x0,  /* postedEvents */
+        {
+            {
+                ((ti_sysbios_knl_Queue_Elem*)((void*)&ti_sysbios_knl_Event_Object__table__V[2].Object_field_pendQ.elem)),  /* next */
+                ((ti_sysbios_knl_Queue_Elem*)((void*)&ti_sysbios_knl_Event_Object__table__V[2].Object_field_pendQ.elem)),  /* prev */
             },  /* elem */
         },  /* Object_field_pendQ */
     },
@@ -4146,7 +4155,7 @@ __FAR__ const CT__ti_sysbios_knl_Event_Module__startupDoneFxn ti_sysbios_knl_Eve
 
 /* Object__count__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Event_Object__count__C, ".const:ti_sysbios_knl_Event_Object__count__C");
-__FAR__ const CT__ti_sysbios_knl_Event_Object__count ti_sysbios_knl_Event_Object__count__C = 2;
+__FAR__ const CT__ti_sysbios_knl_Event_Object__count ti_sysbios_knl_Event_Object__count__C = 3;
 
 /* Object__heap__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Event_Object__heap__C, ".const:ti_sysbios_knl_Event_Object__heap__C");
@@ -11037,7 +11046,7 @@ const ti_sysbios_knl_Semaphore_Handle h_semaphore0 = (ti_sysbios_knl_Semaphore_H
     __attribute__ ((externally_visible))
 #endif
 #endif
-const ti_sysbios_knl_Event_Handle h_event_Adc = (ti_sysbios_knl_Event_Handle)((ti_sysbios_knl_Event_Handle)&ti_sysbios_knl_Event_Object__table__V[1]);
+const ti_sysbios_knl_Event_Handle h_event_rtc = (ti_sysbios_knl_Event_Handle)((ti_sysbios_knl_Event_Handle)&ti_sysbios_knl_Event_Object__table__V[1]);
 
 #ifdef __GNUC__
 #ifndef __TI_COMPILER_VERSION__
@@ -11052,4 +11061,11 @@ const ti_sysbios_knl_Task_Handle h_Event_Adc = (ti_sysbios_knl_Task_Handle)((ti_
 #endif
 #endif
 const ti_sysbios_family_msp430_Hwi_Handle h_IRQ_Adc = (ti_sysbios_family_msp430_Hwi_Handle)((ti_sysbios_family_msp430_Hwi_Handle)&ti_sysbios_family_msp430_Hwi_Object__table__V[1]);
+
+#ifdef __GNUC__
+#ifndef __TI_COMPILER_VERSION__
+    __attribute__ ((externally_visible))
+#endif
+#endif
+const ti_sysbios_knl_Event_Handle h_event_Adc = (ti_sysbios_knl_Event_Handle)((ti_sysbios_knl_Event_Handle)&ti_sysbios_knl_Event_Object__table__V[2]);
 

@@ -14,7 +14,8 @@ CMD_SRCS += \
 C_SRCS += \
 ../adc.c \
 ../hal_LCD.c \
-../main.c 
+../main.c \
+../rtc.c 
 
 GEN_CMDS += \
 ./configPkg/linker.cmd 
@@ -29,7 +30,8 @@ GEN_MISC_DIRS += \
 C_DEPS += \
 ./adc.d \
 ./hal_LCD.d \
-./main.d 
+./main.d \
+./rtc.d 
 
 GEN_OPTS += \
 ./configPkg/compiler.opt 
@@ -37,7 +39,8 @@ GEN_OPTS += \
 OBJS += \
 ./adc.obj \
 ./hal_LCD.obj \
-./main.obj 
+./main.obj \
+./rtc.obj 
 
 GEN_MISC_DIRS__QUOTED += \
 "configPkg" 
@@ -45,12 +48,14 @@ GEN_MISC_DIRS__QUOTED += \
 OBJS__QUOTED += \
 "adc.obj" \
 "hal_LCD.obj" \
-"main.obj" 
+"main.obj" \
+"rtc.obj" 
 
 C_DEPS__QUOTED += \
 "adc.d" \
 "hal_LCD.d" \
-"main.d" 
+"main.d" \
+"rtc.d" 
 
 GEN_FILES__QUOTED += \
 "configPkg\linker.cmd" \
@@ -59,6 +64,7 @@ GEN_FILES__QUOTED += \
 C_SRCS__QUOTED += \
 "../adc.c" \
 "../hal_LCD.c" \
-"../main.c" 
+"../main.c" \
+"../rtc.c" 
 
 

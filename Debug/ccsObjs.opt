@@ -1,6 +1,7 @@
 "./adc.obj"
 "./hal_LCD.obj"
 "./main.obj"
+"./rtc.obj"
 "../MSP_EXP430FR6989.cmd"
 -l"configPkg/linker.cmd"
 -llibmpu_init.a
