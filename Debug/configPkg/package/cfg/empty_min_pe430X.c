@@ -1175,7 +1175,7 @@ extern xdc_Void ti_sysbios_knl_Clock_doTick__I(xdc_UArg);
  */
 
 /* Object__table__V */
-ti_sysbios_knl_Event_Object__ ti_sysbios_knl_Event_Object__table__V[1];
+ti_sysbios_knl_Event_Object__ ti_sysbios_knl_Event_Object__table__V[2];
 
 
 /*
@@ -4036,13 +4036,22 @@ ti_sysbios_knl_Event_Module__ ti_sysbios_knl_Event_Module__root__V = {
 };
 
 /* Object__table__V */
-ti_sysbios_knl_Event_Object__ ti_sysbios_knl_Event_Object__table__V[1] = {
+ti_sysbios_knl_Event_Object__ ti_sysbios_knl_Event_Object__table__V[2] = {
     {/* instance#0 */
         (xdc_UInt)0x0,  /* postedEvents */
         {
             {
                 ((ti_sysbios_knl_Queue_Elem*)((void*)&ti_sysbios_knl_Event_Object__table__V[0].Object_field_pendQ.elem)),  /* next */
                 ((ti_sysbios_knl_Queue_Elem*)((void*)&ti_sysbios_knl_Event_Object__table__V[0].Object_field_pendQ.elem)),  /* prev */
+            },  /* elem */
+        },  /* Object_field_pendQ */
+    },
+    {/* instance#1 */
+        (xdc_UInt)0x0,  /* postedEvents */
+        {
+            {
+                ((ti_sysbios_knl_Queue_Elem*)((void*)&ti_sysbios_knl_Event_Object__table__V[1].Object_field_pendQ.elem)),  /* next */
+                ((ti_sysbios_knl_Queue_Elem*)((void*)&ti_sysbios_knl_Event_Object__table__V[1].Object_field_pendQ.elem)),  /* prev */
             },  /* elem */
         },  /* Object_field_pendQ */
     },
@@ -4106,7 +4115,7 @@ __FAR__ const CT__ti_sysbios_knl_Event_Module__startupDoneFxn ti_sysbios_knl_Eve
 
 /* Object__count__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Event_Object__count__C, ".const:ti_sysbios_knl_Event_Object__count__C");
-__FAR__ const CT__ti_sysbios_knl_Event_Object__count ti_sysbios_knl_Event_Object__count__C = 1;
+__FAR__ const CT__ti_sysbios_knl_Event_Object__count ti_sysbios_knl_Event_Object__count__C = 2;
 
 /* Object__heap__C */
 #pragma DATA_SECTION(ti_sysbios_knl_Event_Object__heap__C, ".const:ti_sysbios_knl_Event_Object__heap__C");
@@ -10965,4 +10974,11 @@ const ti_sysbios_knl_Event_Handle h_eventnuuuuuuuuuuuuuuuumllllllllllllllll = (t
 #endif
 #endif
 const ti_sysbios_knl_Semaphore_Handle h_jesuisunesemaphore = (ti_sysbios_knl_Semaphore_Handle)((ti_sysbios_knl_Semaphore_Handle)&ti_sysbios_knl_Semaphore_Object__table__V[0]);
+
+#ifdef __GNUC__
+#ifndef __TI_COMPILER_VERSION__
+    __attribute__ ((externally_visible))
+#endif
+#endif
+const ti_sysbios_knl_Event_Handle h_event_Adc = (ti_sysbios_knl_Event_Handle)((ti_sysbios_knl_Event_Handle)&ti_sysbios_knl_Event_Object__table__V[1]);
 
