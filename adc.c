@@ -13,13 +13,20 @@
 #include <xdc/runtime/System.h>
 #include <xdc/cfg/global.h>
 
+#include "hal_LCD.h"
+
+#define CALADC_12V_30C *((unsigned int *) 0x1A1A)
+#define CALADC_12V_85C *((unsigned int *) 0x1A1C)
+
 void Init_AdcRef(void)
 {
-    Ref_A_setReferenceVoltage(REF_A_BASE, REF_A_VREF2_0V);
+    Ref_A_setReferenceVoltage(REF_A_BASE, REF_A_VREF1_2V);
     Ref_A_enableReferenceVoltage(REF_A_BASE);
     Ref_A_enableTempSensor(REF_A_BASE);
 
     while(Ref_A_isVariableReferenceVoltageOutputReady(REF_A_BASE) != REF_A_READY);
+
+    return;
 }
 
 void Init_ADC(void)
@@ -71,6 +78,8 @@ void Init_ADC(void)
             0,
             0
     );
+
+    return;
 }
 
 void IRQ_Adc(unsigned index) // INT 45
@@ -83,6 +92,11 @@ void IRQ_Adc(unsigned index) // INT 45
     switch (status)
     {
     case ADC12_B_IFG0:
+
+        RetVal = ADC12MEM0 - CALADC_12V_30C;
+        degree = ((long)RetVal * 10 * (85-30) * 10) /
+                ((CALADC_12V_85C - CALADC_12V_30C) * 10) + 300;
+
         Event_post(h_event_Adc, EVENT_ADC_CONV);
         ADC12_B_clearInterrupt(
             ADC12_B_BASE,
@@ -92,5 +106,43 @@ void IRQ_Adc(unsigned index) // INT 45
         break;
     }
 
+    return;
+}
 
+void ADC_Display(void)
+{
+    ClearDIGIT();
+
+    if (degree >= 1000)
+    {
+        ShowChar((degree/1000) % 10 + '0', pos2);
+    }
+    if (degree >= 100)
+    {
+        ShowChar((degree/100) % 10 + '0', pos3);
+    }
+    if (degree >= 10)
+    {
+        ShowChar((degree/10) % 10 + '0', pos4);
+    }
+    if (degree >= 1)
+    {
+        ShowChar((degree/1) % 10 + '0', pos5);
+    }
+
+    LCDMEM[pos4+1] |= 0x01;
+    LCDMEM[pos5+1] |= 0x04;
+
+    return;
+}
+
+void Start_Conv(void)
+{
+    ADC12_B_startConversion(
+            ADC12_B_BASE,
+            ADC12_B_START_AT_ADC12MEM0,
+            ADC12_B_SINGLECHANNEL
+    );
+
+    return;
 }

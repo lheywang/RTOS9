@@ -7,5 +7,10 @@
 
 void Init_ADC(void);
 void IRQ_Adc(unsigned index);
+void ADC_Display(void);
+void Start_Conv(void);
+
+int degree;
+short RetVal;
 
 #endif

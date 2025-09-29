@@ -70,11 +70,12 @@
 #include "adc.h"
 
 // proto
-void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void);
-void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1);
-void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemaisonsenfouspuisquelecompilateurestsuffisamentbonpouroptimisertoutapparament(unsigned index);
-void jesuisuneventjedetesteayaddetoutemonameetmoncorpsjepourraislebruler(UArg arg0, UArg arg1);
-void jesuisunautreevenementetjedetestetoujoursautantayadviteaubucher(UArg arg0, UArg arg1);
+void gpio_init(void);
+void Tache0(UArg arg0, UArg arg1);
+void Tache1(unsigned index);
+void Event_Button2(UArg arg0, UArg arg1);
+void Event_Button(UArg arg0, UArg arg1);
+void Event_Adc(UArg arg0, UArg arg1);
 
 /*
  *  ======== heartBeatFxn ========
@@ -82,7 +83,7 @@ void jesuisunautreevenementetjedetestetoujoursautantayadviteaubucher(UArg arg0, 
  *  is configured for the heartBeat Task instance.
  */
 
-void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void)
+void gpio_init(void)
 {
     // porc 1 :=====================================D
     GPIO_setAsOutputPin(GPIO_PORT_P1, LEDV);
@@ -102,7 +103,7 @@ void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void)
 
 }
 
-void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, UArg arg1)
+void Tache0(UArg arg0, UArg arg1)
 {
     while (1) {
         Task_sleep(1100);
@@ -110,19 +111,20 @@ void tache1parcequeilfautbienetquecestrigolodefairedesnomsarallonge(UArg arg0, U
     }
 }
 
-void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemaisonsenfouspuisquelecompilateurestsuffisamentbonpouroptimisertoutapparament(unsigned index)
+void Tache1(unsigned index)
 {
     uint16_t status = GPIO_getInterruptStatus(GPIO_PORT_P1, BTN1 + BTN2);
 
     switch (status)
     {
     case BTN1 :
-        Event_post(h_eventnuuuuuuuuuuuuuuuumllllllllllllllll, EVENT_BTN1);
+        Start_Conv();
+        //Event_post(h_event_button, EVENT_BTN1);
         GPIO_clearInterrupt(GPIO_PORT_P1, BTN1);
         break;
 
     case BTN2 :
-        Event_post(h_eventnuuuuuuuuuuuuuuuumllllllllllllllll, EVENT_BTN2);
+        Event_post(h_event_button, EVENT_BTN2);
         GPIO_clearInterrupt(GPIO_PORT_P1, BTN2);
         break;
 
@@ -131,14 +133,14 @@ void jesuisunetachedinterruptnommeedemaniereparticulierementdouteuseetlonguemais
     }
 }
 
-void jesuisuneventjedetesteayaddetoutemonameetmoncorpsjepourraislebruler(UArg arg0, UArg arg1)
+void Event_Button2(UArg arg0, UArg arg1)
 {
    uint16_t posted;
 
    while(1)
    {
        posted = Event_pend(
-               h_eventnuuuuuuuuuuuuuuuumllllllllllllllll,
+               h_event_button,
                Event_Id_NONE,
                EVENT_BTN1,
                TIMEOUT
@@ -147,11 +149,11 @@ void jesuisuneventjedetesteayaddetoutemonameetmoncorpsjepourraislebruler(UArg ar
        switch (posted)
        {
        case EVENT_BTN1 :
-           Semaphore_pend(h_jesuisunesemaphore, BIOS_WAIT_FOREVER);
+           Semaphore_pend(h_semaphore0, BIOS_WAIT_FOREVER);
            ClearLCD();
            DisplayScrollText(LCDstrupr("not remade because of errors"), 150);
            GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
-           Semaphore_post(h_jesuisunesemaphore);
+           Semaphore_post(h_semaphore0);
            break;
 
        default:
@@ -162,14 +164,14 @@ void jesuisuneventjedetesteayaddetoutemonameetmoncorpsjepourraislebruler(UArg ar
    }
 }
 
-void jesuisunautreevenementetjedetestetoujoursautantayadviteaubucher(UArg arg0, UArg arg1)
+void Event_Button(UArg arg0, UArg arg1)
 {
    uint16_t posted;
 
    while(1)
    {
        posted = Event_pend(
-               h_eventnuuuuuuuuuuuuuuuumllllllllllllllll,
+               h_event_button,
                Event_Id_NONE,
                EVENT_BTN2,
                TIMEOUT
@@ -179,10 +181,10 @@ void jesuisunautreevenementetjedetestetoujoursautantayadviteaubucher(UArg arg0, 
        switch (posted)
           {
           case EVENT_BTN2 :
-              Semaphore_pend(h_jesuisunesemaphore, BIOS_WAIT_FOREVER);
-              DisplayScrollText(LCDstrupr("too few arguments in function call"), 150);
+              Semaphore_pend(h_semaphore0, BIOS_WAIT_FOREVER);
+              DisplayScrollText(LCDstrupr("TARTE AU CACAAAAAAA !"), 150);
               GPIO_toggleOutputOnPin(GPIO_PORT_P1, LEDV);
-              Semaphore_post(h_jesuisunesemaphore);
+              Semaphore_post(h_semaphore0);
               break;
 
           default:
@@ -191,6 +193,31 @@ void jesuisunautreevenementetjedetestetoujoursautantayadviteaubucher(UArg arg0, 
 
       Task_sleep(50);
    }
+}
+
+void Event_Adc(UArg arg0, UArg arg1)
+{
+
+    uint16_t Posted;
+
+    while (1)
+    {
+        Posted = Event_pend(
+                h_event_Adc,
+                Event_Id_NONE,
+                EVENT_ADC_CONV,
+                TIMEOUT
+                );
+
+        switch (Posted)
+        {
+        case EVENT_ADC_CONV:
+            ADC_Display();
+            break;
+        }
+
+        Task_sleep(50);
+    }
 }
 
 /*
@@ -205,8 +232,9 @@ int main(void)
     PM5CTL0 &= ~LOCKLPM5;
 
     // init
-    initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge();
+    gpio_init();
     Init_LCD();
+    Init_ADC();
 
     // Display
     DisplayText("AZERTY");

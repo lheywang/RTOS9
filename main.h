@@ -12,6 +12,6 @@
 
 #define TIMEOUT                                                                                                                                                                                                             100
 
-void initgpioparcequeilfautbienetquecestrigolodefairedesnomsarallonge(void);
+void gpio_init(void);
 
 #endif
