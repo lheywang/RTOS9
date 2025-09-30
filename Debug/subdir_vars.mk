@@ -13,6 +13,7 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../main.c \
+../ring_buffer.c \
 ../uart.c 
 
 GEN_CMDS += \
@@ -27,6 +28,7 @@ GEN_MISC_DIRS += \
 
 C_DEPS += \
 ./main.d \
+./ring_buffer.d \
 ./uart.d 
 
 GEN_OPTS += \
@@ -34,6 +36,7 @@ GEN_OPTS += \
 
 OBJS += \
 ./main.obj \
+./ring_buffer.obj \
 ./uart.obj 
 
 GEN_MISC_DIRS__QUOTED += \
@@ -41,10 +44,12 @@ GEN_MISC_DIRS__QUOTED += \
 
 OBJS__QUOTED += \
 "main.obj" \
+"ring_buffer.obj" \
 "uart.obj" 
 
 C_DEPS__QUOTED += \
 "main.d" \
+"ring_buffer.d" \
 "uart.d" 
 
 GEN_FILES__QUOTED += \
@@ -53,6 +58,7 @@ GEN_FILES__QUOTED += \
 
 C_SRCS__QUOTED += \
 "../main.c" \
+"../ring_buffer.c" \
 "../uart.c" 
 
 

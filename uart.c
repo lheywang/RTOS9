@@ -19,6 +19,8 @@
 
 #include "main.h"
 
+#include "ring_buffer.h"
+
 uint8_t RxData, TxData;
 
 
@@ -58,6 +60,13 @@ void init_Uart(void)
 
     EUSCI_A_UART_enable(EUSCI_A1_BASE);
 
+    // Init ring buffer
+    init_ring_buffer();
+//    buffer_push(0x61);
+//    buffer_push(0x62);
+//    uint32_t Size__buffer = buffer_get_size();
+//    uint8_t pop_values = buffer_pop();
+
     return;
 }
 
@@ -73,7 +82,8 @@ void irq_uart(unsigned index)
     case EUSCI_A_UART_RECEIVE_INTERRUPT_FLAG :
 
         RxData = EUSCI_A_UART_receiveData(EUSCI_A1_BASE);
-        EUSCI_A_UART_transmitData(EUSCI_A1_BASE, RxData);
+        // EUSCI_A_UART_transmitData(EUSCI_A1_BASE, RxData);
+        buffer_push(RxData);
 
         EUSCI_A_UART_clearInterrupt(EUSCI_A1_BASE, EUSCI_A_UART_RECEIVE_INTERRUPT_FLAG);
         break;

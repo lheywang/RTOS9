@@ -1,4 +1,5 @@
 "./main.obj"
+"./ring_buffer.obj"
 "./uart.obj"
 "../MSP_EXP430FR6989.cmd"
 -l"configPkg/linker.cmd"
