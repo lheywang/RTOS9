@@ -101,13 +101,24 @@ void SPI_putstring(uint8_t *Data)
 {
     while (EUSCI_B_SPI_isBusy(EUSCI_B0_BASE) == EUSCI_B_SPI_BUSY);
 
-    while(*Data)
+    while(*Data != '\r')
     {
         while (EUSCI_B_SPI_isBusy(EUSCI_B0_BASE) == EUSCI_B_SPI_BUSY);
         EUSCI_B_SPI_transmitData(EUSCI_B0_BASE, *Data++);
     }
 
     return;
+}
+
+uint8_t SPI_receive(void)
+{
+    while (EUSCI_B_SPI_receiveData(EUSCI_B0_BASE) != '\r')
+    {
+        /*
+         * Warning : undefined case with  *val++ ...
+         */
+        *Buffer++ = EUSCI_B_SPI_receiveData(EUSCI_B0_BASE);
+    }
 }
 
 

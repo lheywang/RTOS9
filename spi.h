@@ -18,4 +18,6 @@ void IRQ_spi(unsigned index);
 void SPI_putchar(uint8_t Data);
 void SPI_putstring(uint8_t *Data);
 
+uint8_t SPI_receive(void);
+
 #endif /* SPI_H_ */
