@@ -51,8 +51,8 @@
 
 /* Board Header file */
 #include "main.h"
-#include "uart.h"
-#include "ring_buffer.h"
+
+#include "spi.h"
 
 // proto
 void init_gpio(void);
@@ -61,7 +61,6 @@ void TimerBTN(unsigned index);
 
 void Event_BTNDelay(UArg arg0, UArg arg1);
 void Event_BTNDelay2(UArg arg0, UArg arg1);
-void uart_consummer(UArg arg0, UArg arg1);
 
 uint32_t millis;
 
@@ -208,31 +207,6 @@ void Event_BTNDelay2(UArg arg0, UArg arg1)
     }
 }
 
-// Buffer is init in the uart.c function
-void uart_consummer(UArg arg0, UArg arg1)
-{
-    while (1)
-    {
-        if (buffer_get_size() > 16)
-        {
-            while (buffer_get_size() > 1)
-            {
-                uint8_t tmp = buffer_pop();
-                if (tmp > 0x60)
-                    tmp = tmp - 0x61 + 0x41; // set to lowercase
-                else if (tmp > 0x40)
-                    tmp = tmp - 0x41 + 0x61; // set to upercase
-
-                EUSCI_A_UART_transmitData(EUSCI_A1_BASE, tmp);
-                Task_sleep(5);
-            }
-        }
-
-        Task_sleep(50);
-    }
-}
-
-
 
 /*
  *  ======== main ========
@@ -247,7 +221,7 @@ int main(void)
 
     // init
     init_gpio();
-    init_Uart();
+    init_spi();
 
     /* Start BIOS */
     BIOS_start();

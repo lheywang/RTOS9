@@ -11,8 +11,7 @@ GEN_CMDS__FLAG := -l"configPkg/linker.cmd"
 
 ORDERED_OBJS += \
 "./main.obj" \
-"./ring_buffer.obj" \
-"./uart.obj" \
+"./spi.obj" \
 "../MSP_EXP430FR6989.cmd" \
 $(GEN_CMDS__FLAG) \
 -llibmpu_init.a \
@@ -146,8 +145,8 @@ TP_RTOS2.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "ring_buffer.obj" "uart.obj" 
-	-$(RM) "main.d" "ring_buffer.d" "uart.d" 
+	-$(RM) "main.obj" "spi.obj" 
+	-$(RM) "main.d" "spi.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '

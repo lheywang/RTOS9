@@ -13,8 +13,7 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../main.c \
-../ring_buffer.c \
-../uart.c 
+../spi.c 
 
 GEN_CMDS += \
 ./configPkg/linker.cmd 
@@ -28,29 +27,25 @@ GEN_MISC_DIRS += \
 
 C_DEPS += \
 ./main.d \
-./ring_buffer.d \
-./uart.d 
+./spi.d 
 
 GEN_OPTS += \
 ./configPkg/compiler.opt 
 
 OBJS += \
 ./main.obj \
-./ring_buffer.obj \
-./uart.obj 
+./spi.obj 
 
 GEN_MISC_DIRS__QUOTED += \
 "configPkg" 
 
 OBJS__QUOTED += \
 "main.obj" \
-"ring_buffer.obj" \
-"uart.obj" 
+"spi.obj" 
 
 C_DEPS__QUOTED += \
 "main.d" \
-"ring_buffer.d" \
-"uart.d" 
+"spi.d" 
 
 GEN_FILES__QUOTED += \
 "configPkg\linker.cmd" \
@@ -58,7 +53,6 @@ GEN_FILES__QUOTED += \
 
 C_SRCS__QUOTED += \
 "../main.c" \
-"../ring_buffer.c" \
-"../uart.c" 
+"../spi.c" 
 
 

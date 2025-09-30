@@ -7,8 +7,9 @@
 #define LEDV                GPIO_PIN0
 #define LEDR                GPIO_PIN7
 
-#define RXD                 GPIO_PIN4
-#define TXD                 GPIO_PIN5
+#define SPICLK              GPIO_PIN4
+#define MOSI                GPIO_PIN6
+#define MISO                GPIO_PIN7
 
 #define Event_BTN1          Event_Id_01
 #define Event_BTN2          Event_Id_02
