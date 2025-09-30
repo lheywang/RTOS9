@@ -59,10 +59,23 @@ uint8_t buffer_pop(void)
     return tmp;
 }
 
+/*
+ * Issue with this function : Return incorrect value when tail is near origin, and head is after.
+ * buffer works at start, and then start to return invalid data.
+ */
 uint32_t buffer_get_size(void)
 {
-    uint32_t val = (uint32_t)(head - tail);
+    // Case where head is behind tail
+    if (head > tail)
+    {
+        uint32_t val = (uint32_t)(head - tail);
+        return val;
+    }
+
+    // Case where tail is greater than head (because head passed the origin
+    uint32_t val = (uint32_t)(head - buffer) + (uint32_t)(buffer - tail);
     return val;
+
 }
 
 
